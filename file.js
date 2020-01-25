@@ -26,8 +26,16 @@ if (navigator.geolocation) {
         //Below is a destructuring instead of defining showLocaton, showTemperature...etc individually
         const { temperature, summary, icon } = data.currently;
         showDescription.innerHTML = summary;
-        showTemperature.innerHTML = `${temperature} &#8451`;
+
         showLocation.innerHTML = data.timezone;
+
+        // Convert the temperature to celsius
+        let tempFarenheit;
+        const toCelsius = temp => {
+          return (tempFarenheit = Math.floor((temp - 32) * 0.55555555));
+        };
+        toCelsius(temperature);
+        showTemperature.innerHTML = `${tempFarenheit} &#8451`;
 
         // Setting the icons to respoond to change in weather
         if (icon === "partly-cloudy-day") {
@@ -47,20 +55,16 @@ if (navigator.geolocation) {
         }
 
         //Coverting the temperature to Farenheit when clicked
-        let toFarenheit;
-        const toCelsius = temp => {
-          return (toFarenheit = Math.floor((temp - 32) * 0.55555555));
-        };
 
-        showTemperature.addEventListener("click", e => {
-          toCelsius(temperature);
-          if (e.target.innerHTML === `${temperature} &#8451`) {
-            console.log("hey");
-            e.target.innerHTML = `${toFarenheit} &#8457`;
-          } else {
-            e.target.innerHTML == `${temperature} &#8451`;
-          }
-        });
+        // showTemperature.addEventListener("click", e => {
+        //   toCelsius(temperature);
+        //   if (e.target.innerHTML === `${temperature} &#8451`) {
+        //     console.log("hey");
+        //     e.target.innerHTML = `${toFarenheit} &#8457`;
+        //   } else {
+        //     e.target.innerHTML == `${temperature} &#8451`;
+        //   }
+        // });
       });
   });
 } else {
